@@ -1,2 +1,1 @@
-# ekans
-🐍 Ekans
+# 🐍 Ekans
