@@ -1,10 +1,11 @@
 from typing import Any
+from uuid import UUID
 
 from fastapi import APIRouter
 
 from .data_mapper import fromDb
 from .model import Builder, User
-from .repository import getAll
+from .repository import getAll, getByPublicId
 
 router = APIRouter(prefix="/users")
 
@@ -21,6 +22,7 @@ async def read_user_me() -> User:
     return Builder().setUsername("Me").build()
 
 
-@router.get("/{username}", tags=["users"])
-async def read_user(username: str) -> Any:
-    return Builder().setUsername(username).build()
+@router.get("/{id}", tags=["users"])
+async def read_user(id: UUID) -> Any:
+    db_user = getByPublicId(id)
+    return fromDb(db_user)

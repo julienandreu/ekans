@@ -1,16 +1,23 @@
 from __future__ import annotations
 
+from uuid import UUID
+
 from pydantic import BaseModel
 
 
 class User(BaseModel):
+    id: UUID
     username: str
 
-    def __init__(self, username: str) -> None:
-        super().__init__(username=username)
+    def __init__(self, id: UUID, username: str) -> None:
+        super().__init__(id=id, username=username)
 
 
 class Builder:
+    def setId(self, id: UUID) -> Builder:
+        self.__id = id
+        return self
+
     def setUsername(self, username: str) -> Builder:
         self.__username = username
         return self
@@ -19,4 +26,4 @@ class Builder:
         return Builder()
 
     def build(self) -> User:
-        return User(self.__username)
+        return User(self.__id, self.__username)
