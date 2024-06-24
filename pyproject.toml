@@ -6,16 +6,18 @@ authors = ["Julien Andreu <julienandreu@me.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-uvicorn = {extras = ["standard"], version = "^0.24.0.post1"}
+uvicorn = { extras = ["standard"], version = "^0.24.0.post1" }
 fastapi = "^0.111.0"
 tenacity = "^8.2.3"
 pydantic = ">2.0"
 alembic = "^1.12.1"
 sqlmodel = "^0.0.19"
 pydantic-settings = "^2.2.1"
-sentry-sdk = {extras = ["fastapi"], version = "^1.40.6"}
-psycopg = {extras = ["binary"], version = "^3.1.19"}
+sentry-sdk = { extras = ["fastapi"], version = "^1.40.6" }
+psycopg = { extras = ["binary"], version = "^3.1.19" }
 uuid = "^1.30"
+wheel = "^0.43.0"
+dependency-injector = { extras = ["yaml"], version = "^4.38.0" }
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.3"
@@ -39,20 +41,20 @@ exclude = ["alembic"]
 
 [tool.ruff.lint]
 select = [
-    "E",  # pycodestyle errors
-    "W",  # pycodestyle warnings
-    "F",  # pyflakes
-    "I",  # isort
-    "B",  # flake8-bugbear
-    "C4",  # flake8-comprehensions
-    "UP",  # pyupgrade
-    "ARG001", # unused arguments in functions
+  "E",      # pycodestyle errors
+  "W",      # pycodestyle warnings
+  "F",      # pyflakes
+  "I",      # isort
+  "B",      # flake8-bugbear
+  "C4",     # flake8-comprehensions
+  "UP",     # pyupgrade
+  "ARG001", # unused arguments in functions
 ]
 ignore = [
-    "E501",  # line too long, handled by black
-    "B008",  # do not perform function calls in argument defaults
-    "W191",  # indentation contains tabs
-    "B904",  # Allow raising exceptions without from e, for HTTPException
+  "E501", # line too long, handled by black
+  "B008", # do not perform function calls in argument defaults
+  "W191", # indentation contains tabs
+  "B904", # Allow raising exceptions without from e, for HTTPException
 ]
 
 [tool.ruff.lint.pyupgrade]

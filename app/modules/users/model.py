@@ -14,11 +14,11 @@ class User(BaseModel):
 
 
 class Builder:
-    def setId(self, id: UUID) -> Builder:
+    def set_id(self, id: UUID) -> Builder:
         self.__id = id
         return self
 
-    def setUsername(self, username: str) -> Builder:
+    def set_username(self, username: str) -> Builder:
         self.__username = username
         return self
 
