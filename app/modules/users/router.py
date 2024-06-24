@@ -2,19 +2,25 @@ from typing import Any
 
 from fastapi import APIRouter
 
-router = APIRouter()
+from .data_mapper import fromDb
+from .model import Builder, User
+from .repository import getAll
+
+router = APIRouter(prefix="/users")
 
 
-@router.get("/users/", tags=["users"])
-async def read_users() -> Any:
-    return [{"username": "Rick"}, {"username": "Morty"}]
+@router.get("/", tags=["users"])
+async def read_users() -> list[User]:
+    db_users = getAll()
+
+    return list(map(fromDb, db_users))
 
 
-@router.get("/users/me", tags=["users"])
-async def read_user_me() -> Any:
-    return {"username": "fakecurrentuser"}
+@router.get("/me", tags=["users"])
+async def read_user_me() -> User:
+    return Builder().setUsername("Me").build()
 
 
-@router.get("/users/{username}", tags=["users"])
+@router.get("/{username}", tags=["users"])
 async def read_user(username: str) -> Any:
-    return {"username": username}
+    return Builder().setUsername(username).build()

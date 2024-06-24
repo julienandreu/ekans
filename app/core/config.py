@@ -1,6 +1,8 @@
+import os
 import warnings
 from typing import Annotated, Any, Literal
 
+from dotenv import find_dotenv, load_dotenv
 from pydantic import (
     AnyUrl,
     BeforeValidator,
@@ -12,6 +14,8 @@ from pydantic import (
 from pydantic_core import MultiHostUrl
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing_extensions import Self
+
+load_dotenv(find_dotenv(os.path.join(os.path.dirname(__file__), "..", "..", ".env")))
 
 
 def parse_cors(v: Any) -> list[str] | str:
