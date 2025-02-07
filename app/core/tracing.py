@@ -15,7 +15,7 @@ def setup_tracing(
 
     Args:
         service_name: Name of the service for tracing
-        endpoint: Optional OTLP endpoint (e.g., http://localhost:4317 for local collector)
+        endpoint: Optional OTLP endpoint
     """
     resource = Resource.create({"service.name": service_name})
 

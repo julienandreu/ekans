@@ -15,13 +15,24 @@ _recent_status_codes: Deque[int] = deque(maxlen=100)
 
 
 class HttpStatsMiddleware(BaseHTTPMiddleware):
-    """Middleware to track HTTP request statistics."""
+    """Middleware to track HTTP request statistics.
+
+    Args:
+        app: ASGI app
+    """
 
     async def dispatch(
         self,
         request: Request,
         call_next: Callable[[Request], Awaitable[Response]],
     ) -> Response:
+        """Dispatch the request.
+
+        Args:
+            request: Request
+            call_next: Callable[[Request], Awaitable[Response]]
+        """
+        # pylint: disable=global-statement
         global _request_count
         response = await call_next(request)
 
