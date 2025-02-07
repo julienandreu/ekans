@@ -1,0 +1,53 @@
+output-format: grouped
+
+strictness: veryhigh
+test-warnings: true
+doc-warnings: true
+member-warnings: true
+
+ignore-paths:
+  - docs
+  - build
+  - dist
+  - .venv
+
+autodetect: false
+
+pyroma:
+  run: true
+
+mccabe:
+  run: true
+  max-complexity: 10
+
+pep8:
+  full: true
+  disable:
+    - E226 # missing whitespace around operator
+    - E302 # expected 2 blank lines, found 1
+    - E41 # expected an assignment or function definition
+
+pylint:
+  run: true
+  enable:
+    - unused-argument
+    - unused-variable
+  disable:
+    - C0330 # Wrong hanging indentation
+    - C0326 # Bad whitespace
+
+mypy:
+  run: true
+  options:
+    strict: true
+    disallow-untyped-defs: true
+    disallow-incomplete-defs: true
+    check-untyped-defs: true
+    disallow-untyped-decorators: true
+    no-implicit-optional: true
+    warn-redundant-casts: true
+    warn-unused-ignores: true
+    warn-return-any: true
+    warn-unreachable: true
+
+max-line-length: 88 

@@ -1,11 +1,21 @@
+"""Ekans API: A simple FastAPI application."""
+
 from fastapi import FastAPI
 
-from .core.lifespan import lifespan
-from .core.monitoring import init
-from .modules.users.router import router as usersRouter
+from app.middlewares.http_stats import HttpStatsMiddleware
+from app.routers import router
 
-init()
+app: FastAPI = FastAPI(
+    title="Ekans API",
+    description="🐍 A simple FastAPI application",
+    version="0.1.0",
+)
 
-app = FastAPI(lifespan=lifespan)
+app.add_middleware(HttpStatsMiddleware)
+app.include_router(router)
 
-app.include_router(usersRouter)
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=8000)
