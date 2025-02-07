@@ -1,11 +1,14 @@
 """Ekans API: A simple FastAPI application."""
 
+from logging import getLogger
 from typing import Any, Dict
 
 from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
 
-from app.core.tracing import setup_tracing
+from app.core.logger import setup_logging
+from app.core.tracer import setup_tracing
+from app.middlewares.logging import LogMiddleware
 from app.middlewares.stats import HttpStatsMiddleware
 from app.middlewares.tracing import TracingMiddleware
 from app.routers import router
@@ -18,6 +21,12 @@ setup_tracing(
     # NewRelic: "https://otlp.nr-data.net:4317"
     # Sentry: "http://localhost:4317"
 )
+
+
+# Initialize logging
+setup_logging()
+
+logger = getLogger(__name__)
 
 app: FastAPI = FastAPI(
     title="Ekans API",
@@ -90,9 +99,17 @@ app.openapi = custom_openapi  # type: ignore
 # Add middlewares
 app.add_middleware(TracingMiddleware)
 app.add_middleware(HttpStatsMiddleware)
+app.add_middleware(LogMiddleware)
 app.include_router(router)
 
 if __name__ == "__main__":
-    from uvicorn import run
+    import uvicorn
 
-    run(app, host="0.0.0.0", port=8000, server_header=False)
+    logger.info("Starting Ekans API")
+    uvicorn.run(
+        app,
+        host="0.0.0.0",
+        port=8000,
+        server_header=False,
+        log_config=None,
+    )

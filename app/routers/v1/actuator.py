@@ -23,6 +23,7 @@ Models:
 import platform
 import sys
 from datetime import datetime
+from logging import getLogger
 from typing import Dict, List, Optional, TypedDict
 
 import psutil
@@ -30,6 +31,8 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 
 from app.middlewares.stats import get_start_time, get_stats
+
+logger = getLogger(__name__)
 
 
 class ComponentDetails(TypedDict):
@@ -279,7 +282,11 @@ async def stats() -> HttpStats:
     Returns:
         HttpStats: HTTP request statistics and status code history
     """
+
+    logger.info("Getting HTTP request statistics")
     requests, counts, recent = get_stats()
+    logger.info("HTTP request statistics retrieved")
+
     return HttpStats(
         total_requests=requests,
         status_counts=counts,

@@ -3,6 +3,7 @@
 from collections import defaultdict, deque
 from collections.abc import Callable
 from datetime import datetime
+from logging import getLogger
 from typing import Awaitable, Deque, Dict
 
 from fastapi import Request, Response
@@ -12,6 +13,8 @@ _start_time: datetime = datetime.now()
 _request_count: int = 0
 _status_counts: Dict[int, int] = defaultdict(int)
 _recent_status_codes: Deque[int] = deque(maxlen=100)
+
+logger = getLogger(__name__)
 
 
 class HttpStatsMiddleware(BaseHTTPMiddleware):
@@ -52,6 +55,8 @@ def get_stats() -> tuple[int, Dict[int, int], list[int]]:
             - Dictionary of status code counts
             - List of recent status codes
     """
+
+    logger.info("get_stats()")
     return (
         _request_count,
         dict(_status_counts),

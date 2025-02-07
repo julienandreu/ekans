@@ -13,6 +13,10 @@ from starlette.types import ASGIApp
 
 # Context variable to store the request ID
 request_id_ctx_var: ContextVar[str] = ContextVar("request_id", default="")
+# Context variable to store the correlation ID
+correlation_id_ctx_var: ContextVar[Optional[str]] = ContextVar(
+    "correlation_id", default=None
+)
 # Context variable to store the current span
 current_span_ctx_var: ContextVar[Optional[Span]] = ContextVar(
     "current_span", default=None
@@ -53,8 +57,10 @@ class TracingMiddleware(BaseHTTPMiddleware):
             call_next: Callable[[Request], Awaitable[Response]]
         """
         request_id = str(uuid.uuid4())
-        correlation_id = request.headers.get("X-Correlation-ID")
         request_id_ctx_var.set(request_id)
+
+        correlation_id = request.headers.get("X-Correlation-ID")
+        correlation_id_ctx_var.set(correlation_id)
 
         start_time = time.time()
 
@@ -110,6 +116,15 @@ def get_request_id() -> str:
         str: Request ID
     """
     return request_id_ctx_var.get()
+
+
+def get_correlation_id() -> Optional[str]:
+    """Get the current correlation ID.
+
+    Returns:
+        str: Correlation ID
+    """
+    return correlation_id_ctx_var.get()
 
 
 def get_current_span() -> Optional[Span]:
