@@ -29,7 +29,7 @@ import psutil
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-from app.middlewares.http_stats import get_start_time, get_stats
+from app.middlewares.stats import get_start_time, get_stats
 
 
 class ComponentDetails(TypedDict):

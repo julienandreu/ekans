@@ -10,6 +10,9 @@ python = "^3.12"
 fastapi = "^0.110.0"
 uvicorn = "^0.27.1"
 psutil = "^5.9.8"
+opentelemetry-api = "^1.22.0"
+opentelemetry-sdk = "^1.22.0"
+opentelemetry-exporter-otlp = "^1.22.0"
 
 [tool.poetry.group.dev.dependencies]
 prospector = { extras = ["with-everything"], version = "^1.10.3" }
